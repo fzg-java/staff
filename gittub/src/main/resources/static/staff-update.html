@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <input type="hidden" name="id">
+    <input type="hidden" name="telephone">
+用户:<input type="text" name="name"></br>
+    密码:<input type="text" name="password"></br>
+    <select id="partment" name="did">
+        <option>部门</option>
+    </select>
+    </br>
+    <input type="button" value="修改">
+</form>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+
+    $(function () {
+        /* 解析浏览器地址栏指定的参数*/
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+        var id = GetQueryString("id");
+        $.post("/staff/selectOneStaff",
+            {"id":id},
+            function (data) {
+                console.log(data);
+                $("input[name=name]").val(data.name);
+                $("input[name=password]").val(data.password);
+                $("input[name=id]").val(data.did);
+                console.log(data.did);
+                console.log($("input[name=id]").val());
+                $("input[name=telephone]").val(data.telephone);
+
+                $.post("/department/showDepartment",function (data) {
+
+                    console.log(data);
+                    console.log($("input[name=id]").val());
+                    var did =  $("input[name=id]").val();
+                    console.log(did);
+                    $.each(data,function (index,dep) {
+                        console.log(dep.id);
+                        console.log(dep.department);
+                        var option = "";
+                        if (did==dep.id){
+                            option = "<option value='"+dep.id+"' selected>"+dep.department+"</option>"
+                        }else {
+                            option = "<option value='"+dep.id+"'>"+dep.department+"</option>"
+                        }
+                        $("#partment").append(option);
+                    })
+                },"json")
+            }
+            ,"json")
+
+        $("input[type=button]").click(function () {
+            $.ajax({
+                url:"/staff/updateStaff",
+                type:"post",
+                data: $("form").serialize(),
+                dataType:"json",
+                success:function (data) {
+                    if (data>0){
+                        alert("修改成功");
+                    } else{
+                        alert("修改失败");
+                    }
+
+                }
+            })
+        })
+    })
+
+
+</script>
+</html>

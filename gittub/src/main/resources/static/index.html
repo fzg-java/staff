@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <h2>员工信息展示</h2>
+    <p>当前用户<span></span></p>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>姓名</th>
+            <th>手机号</th>
+            <th>部门</th>
+            <th>删除</th>
+            <th>修改</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td></td></tr>
+        </tbody>
+    </table>
+</form>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+    $(function(){
+        $.post("/staff/selectAllStaff",function (data) {
+            console.log(data);
+
+            $.each(data,function (index,obj) {
+                console.log(obj.name);
+                console.log(obj.sid);
+                console.log(obj.department.department);
+                var tb = "<tr><td>"+obj.sid+"</td><td>"+obj.name+"</td><td>"+obj.telephone+"</td><td>"+obj.department.department+"</td><td><a  href='' onclick=deleteStaff("+obj.telephone+")>删除</a></td><td><a href='staff-update.html?id="+obj.sid+"'>修改</a></td></tr>"
+                $("tbody").append(tb);
+            });
+        },"json")
+
+
+
+    })
+    function deleteStaff(tel){
+        $.post("/staff/deleteStaff",{
+                "telephone":tel
+            },
+            function (data) {
+                if (data>0){
+                    alert("删除成功");
+                }else {
+                    alter("删除失败");
+                }
+            }
+        )
+    }
+</script>
+</html>

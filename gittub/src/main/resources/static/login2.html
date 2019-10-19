@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form  action="" id="formInfo">
+    <h2>用户登录</h2>
+    账号:<input type="text" placeholder="手机号" name="telephone"><br>
+    验证码:<input type="text" name="code2"> <button id="getCode">获取验证码</button><br>
+    <input type="button" value="登录">
+</form>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script>
+
+    $(function () {
+        //获取code
+        $("#getCode").click(function(){
+        $.post("/staff/getCode" ,{telephone:$("input[name=telephone]").val()},
+            function (data) {
+            console.log(data);
+            alert(data);
+       },"json")
+        });
+        //验证登录
+        $("input[type=button]").click(function () {
+            $.ajax({
+                url:"/staff/selectOneInfo",
+                type:"post",
+                data: $("#formInfo").serialize(),
+                dataType:"json",
+                success:function (data) {
+                    if(data=="登陆成功"){
+                        alert(data);
+                        window.location.href='index.html';
+                    }else{
+                        alert(data);
+                    }
+
+                }
+            })
+        })
+
+    })
+</script>
+</html>

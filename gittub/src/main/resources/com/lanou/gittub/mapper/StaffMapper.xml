@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanou.gittub.mapper.StaffMapper">
+    <select id="selectOneInfo" resultType="staff">
+        select * from staff where telephone=#{telephone}
+    </select>
+    <!--根据sid查询员工信息-->
+    <select id="selectOneStaff" resultType="staff">
+        select * from staff where sid=#{sid}
+    </select>
+    <!--查看所有员工信息-->
+    <select id="selectAllStaff" resultMap="staffMap">
+     select a.sid as sid,a.name as name ,a.password as password,a.did did,a.telephone telephone,b.department as department ,b.id as id from staff a ,department b where a.did=b.id
+    </select>
+    <resultMap id="staffMap" type="staff" >
+        <id column="sid" property="sid"></id>
+        <result column="name" property="name"></result>
+        <result column="password" property="password"></result>
+        <result column="did" property="did"></result>
+        <result column="telephone" property="telephone"></result>
+        <association property="department" javaType="department">
+            <id column="id" property="id"></id>
+            <result column="department" property="department"></result>
+        </association>
+    </resultMap>
+    <!--修改用户信息-->
+    <update id="updateStaff">
+        update staff set name=#{name} ,password=#{password},did=#{did} where telephone=#{telephone}
+    </update>
+    <!--删除用户-->
+    <delete id="deleteStaff">
+        delete from staff where telephone=#{telephone}
+    </delete>
+    
+</mapper>
