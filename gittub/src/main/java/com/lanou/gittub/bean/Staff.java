@@ -13,6 +13,6 @@ public class Staff {
     private Integer sid;//员工id
     private String name;//员工姓名
     private String password;//员工密码
-    private String department;//所属部门
-    private Integer telephone;//员工手机号
+    private Integer did;//所属部门
+    private String telephone;//员工手机号
 }

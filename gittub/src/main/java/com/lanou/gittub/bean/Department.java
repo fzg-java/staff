@@ -12,6 +12,4 @@ import lombok.ToString;
 public class Department {
     private Integer id;//部门id
     private String department;//部门
-    private Integer sid;//员工id
-
 }

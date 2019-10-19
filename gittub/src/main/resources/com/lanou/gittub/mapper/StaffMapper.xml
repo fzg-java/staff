@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanou.gittub.mapper.StaffMapper">
+     <!--通过name查找员工-->
+    <select id="selectStaffByName" resultType="com.lanou.gittub.bean.Staff">
+        select * from staff where name = #{name}
+    </select>
+    <!--添加员工-->
+    <insert id="addStaff" parameterType="com.lanou.gittub.bean.Staff">
+        insert into staff (sid,name,password,telephone,did) values(SEQ_DEP_ID.nextval,#{name},#{password},#{telephone},#{did})
+    </insert>
+</mapper>

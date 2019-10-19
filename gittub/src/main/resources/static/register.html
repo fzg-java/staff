@@ -5,6 +5,34 @@
     <title>$Title$</title>
 </head>
 <body>
-
+<form action="/staff/register">
+         用户名:<input type="text" name="name" id="name"></br>
+         手机号:<input type="text" name="telephone" id="telephone"></br>
+         部门:<select class="select" id="did" name="did">
+         </select><br/>
+         验证码:<input type="text" name="code"></br>
+         <input type="button" value="发送验证码" id="code"></br>
+         <button type="submit">注册</button>
+         <button type="reset">重置</button>
+</form>
 </body>
+    <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+    <script>
+
+        $("#code").click(function () {
+            $.post("staff/code",{
+                "telephone":$("#telephone").val(),
+            })
+        })
+        $(function () {
+            $.post("dep/allDep",function (data) {
+                console.log(data);
+                $.each(data,function (index,obj) {
+                    var option = "<option value='"+obj.id+"'>"+obj.department+"</option>";
+                    $("#did").append(option);
+                })
+            },"json")
+        })
+
+    </script>
 </html>
